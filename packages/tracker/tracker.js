@@ -60,7 +60,7 @@ var _throwOrLog = function (from, e) {
     throw e;
   } else {
     var printArgs = ["Exception from Tracker " + from + " function:"];
-    if (e.stack && e.message && e.name) {
+    if (e && e.stack && e.message && e.name) {
       var idx = e.stack.indexOf(e.message);
       if (idx < 0 || idx > e.name.length + 2) { // check for "Error: "
         // message is not part of the stack
@@ -68,7 +68,9 @@ var _throwOrLog = function (from, e) {
         printArgs.push(message);
       }
     }
-    printArgs.push(e.stack);
+    if(e){
+      printArgs.push(e.stack);
+    }
     _maybeSuppressMoreLogs(printArgs.length);
 
     for (var i = 0; i < printArgs.length; i++) {
